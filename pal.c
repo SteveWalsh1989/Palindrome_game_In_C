@@ -14,7 +14,7 @@
  *
  * R00151053
  *
- * 23/2/2018
+ * 13//2018
  *
  *****************************/
 
@@ -33,7 +33,10 @@ void start_game(int* initialNumber) {
     //    Declaring Variables
     //-------------------------------------
 
+    char validCommands[4] = {'a','d', 'w','x'};                                     // declare character array of valid commands
+
     int *listOfNumber;                                                              // declare array to hold passed in pointer of initialNumber
+
 
     int positionOfCursor = 0;                                                       // define position of cursor
 
@@ -45,30 +48,26 @@ void start_game(int* initialNumber) {
     //    Calling Game Methods
     //-------------------------------------
 
-    displayGameHeader();                                                                   // display game header
+    displayGameHeader();                                                             // display game header
 
-    int number_of_digits =  countArray(initialNumber);                                     // gets number of digits for array
+    int number_of_digits =  countArray(initialNumber);                               // gets number of digits for array
 
-    listOfNumber = initialiseArray(initialNumber,listOfNumber);                            // generate array
+    listOfNumber = initialiseArray(initialNumber);                      // generate array
 
-    randomizeCursorPosition(&positionOfCursor, number_of_digits );                         // randomizes cursor position at start
+    randomizeCursorPosition(&positionOfCursor, number_of_digits );                   // randomizes cursor position at start
 
-    while (!isWinner) {                                                                // keep playing until user wins
+    while (!isWinner) {                                                              // keep playing until user wins
 
-        displayState(listOfNumber, positionOfCursor, number_of_digits, numberOfGoes);  // display state of game
+        displayState(listOfNumber, positionOfCursor, number_of_digits, numberOfGoes);// display state of game
 
-        char command = getCommand();                                                   // stores user command
+        char command = getCommand();                                                 // stores user command
 
-        processCommand(&listOfNumber, number_of_digits, &positionOfCursor,
-                       command, &numberOfGoes);                                        // processes user command
+        processCommand(listOfNumber, number_of_digits, &positionOfCursor,
+                       command, &numberOfGoes, &validCommands);                      // processes user command
 
-        isWinner = is_palindrome(listOfNumber, number_of_digits);                      // checks if user won
+        isWinner = is_palindrome(listOfNumber, number_of_digits);                    // checks if user won
     }
-    userWon(numberOfGoes);                                                                 // prints congratulations to user
-
-
-
-
+    userWon(numberOfGoes);                                                           // prints congratulations to user
 }
 
 /**
@@ -97,8 +96,6 @@ void displayGameHeader(){
     printf("\n                                  ");
     printf("\n     ---------------------        ");
 }
-
-
 
 /**
  * displayState
@@ -195,17 +192,21 @@ void moveCursorLeft( int* pPosOfCursor, int max ) {
  *@param  pListOfNumbers  : list of number addresses
  *@param  pPosOfCursor     : location of cursor
  */
-void incrementDigitInListAtPos(int* pListOfNumbers,int* positionOfCursor ){
+void incrementDigitInListAtPos(int* pListOfNumbers, int* positionOfCursor ){
 
+    if ( *(pListOfNumbers + *positionOfCursor) == 9 ) {     // Scenario 1: Value is 9
 
-    if ( *(pListOfNumbers + *positionOfCursor) == 9 ) {    // Scenario 1: Value is 9
+         *(pListOfNumbers + *positionOfCursor) = 0;         // resets value at position to 0
 
-        *(pListOfNumbers + *positionOfCursor) = 0;         // resets value at position to 0
+    } else {                                                // Scenario 2: value not 9
 
-    } else {                                               // Scenario 2: value not 9
-
-        *(pListOfNumbers + *positionOfCursor) += 1;        // increments value by one
+        *(pListOfNumbers + *positionOfCursor) += 1;         // increments value by one
     }
+
+
+
+
+
 }
 
 /**
@@ -256,34 +257,34 @@ char getCommand() {
 /**
  * processCommand
  *
- *
+ * processes user command by calling relative method
  *
  *@param pListOfNumbers    : address of first element in list
  *@param size              : size of the list
  *@param pPositionOfCursor : position of the cursor
  *@param command           : command the user enters
  */
-void processCommand(int* pList, int size, int* pPositionOfCursor, char command, int* numberOfGoes) {
+void processCommand(int* pList, int size, int* pPositionOfCursor, char command, int* numberOfGoes, char* validCommands) {
 
-    if(command =='w'){                                          // Scenario 1: User enters w
+    if(command == validCommands[2]){                            // Scenario 1: User enters w
 
         incrementDigitInListAtPos(pList, pPositionOfCursor);    // increases number
 
         *numberOfGoes+=1;                                       // increase number of goes
 
-    } else if(command =='x'){                                   // Scenario 2: User enters x
+    } else if(command == validCommands[3]){                     // Scenario 2: User enters x
 
         decrementDigitInListAtPos(pList, pPositionOfCursor);    // decreases number
 
         *numberOfGoes+=1;                                       // increase number of goes
 
-    } else if( command =='a'){                                  // Scenario 3: User enters x
+    } else if( command == validCommands[0]){                    // Scenario 3: User enters x
 
         moveCursorLeft(pPositionOfCursor,size);                 // move cursor left
 
         *numberOfGoes+=1;                                       // increase number of goes
 
-    } else if(command =='d') {                                  // Scenario 4: User enters d
+    } else if(command == validCommands[1]) {                     // Scenario 4: User enters d
 
         moveCursorRight(pPositionOfCursor, size);               // move cursor right
 
@@ -364,7 +365,7 @@ int countArray(int* integer){
  *
  *@param integer : address of the integer to be converted to array
  */
-int* initialiseArray(int* integer, int* initialNumber) {
+int* initialiseArray(int* integer) {
 
 
     int copy = *integer;                 // create copy to get how many elements in array
@@ -394,7 +395,6 @@ int* initialiseArray(int* integer, int* initialNumber) {
 
 }
 
-
 /**
  * randomizeCursorPosition
  *
@@ -411,5 +411,7 @@ void randomizeCursorPosition(int* pPosOfCursor,int size) {
 
 
 }
+
+
 
 

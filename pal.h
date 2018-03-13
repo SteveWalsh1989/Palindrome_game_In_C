@@ -29,7 +29,7 @@ void start_game(int*);                     // launches game
 
 void randomizeCursorPosition(int* ,int );  // randomize the cursor starting position
 
-int* initialiseArray(int*,int*);           // initializes array from integer
+int* initialiseArray(int*);           // initializes array from integer
 
 //-------------------------------------
 //        Display State
@@ -46,18 +46,16 @@ void moveCursorLeft( int*,int );           // moveCursorleft to move cursor one 
 //-------------------------------------
 //        Change number value
 //-------------------------------------
-void incrementDigitInListAtPos(int* ,int* );// increases value of element currently at position
+void incrementDigitInListAtPos(int*,int* );// increases value of element currently at position
 
 void decrementDigitInListAtPos(int* ,int* );// decreases value of element currently at position
-
 
 //-------------------------------------
 //       commands
 //-------------------------------------
 char getCommand();                         // store users command
 
-void processCommand(int*, int, int*, char, int*);// processes users command
-
+void processCommand(int*, int, int*, char, int*, char*);// processes users command
 
 //-------------------------------------
 //       checking if palindrome
