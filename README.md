@@ -15,10 +15,11 @@ Program will count number of goes it takes user to complete game
 
 When user created palindrome program will display message to user
 
-Will work when used with array of intergers declared in pal.c 
 
-Will not work when used with integer converted to array in main
-         1 : Doesnt increase / decrease digits using w / x 
- 
+
+  Three scenarios to choose from in main.c
+      1: uses intitialNumber defined in main.c
+      2: uses listOfNumber[] defined in pal.c
+      3: uses random number for intitialNumber defined in main.c
  
  

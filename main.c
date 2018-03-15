@@ -21,7 +21,10 @@
  * Program will count number of goes it takes user to complete game
  *
  *
- *
+ * Three scenarios to choose from
+ *      1: uses intitialNumber defined in main.c
+ *      2: uses listOfNumber[] defined in pal.c
+ *      3: uses random number for intitialNumber
  *
  *
  *******************************************************************************/
@@ -30,13 +33,16 @@
 int main() {
 
     //-------------------------------------
-    //       Scenario Identification
+    //       Scenario Selection
     //-------------------------------------
 
     // Change value of testNumber to run program in the different scenarios
 
-    int testNumber = 1;
+    int testNumber = 3;
 
+    //-------------------------------------
+    //       Scenarios
+    //-------------------------------------
 
     if(testNumber == 1) {                        // Scenario 1: use initialNumber defined in main.c
 
@@ -45,25 +51,22 @@ int main() {
         start_game(&initialNumber);              // launches game
 
 
-}else if(testNumber == 2) {                      // Scenario 2:   use initialised array in pal.c
+    }else if(testNumber == 2) {                  // Scenario 2:   use initialised array in pal.c
 
         start_game2();
 
-}else if(testNumber == 3) {                      // Scenario 3: create a random number to store in intialNumber to use
+    }else if(testNumber == 3) {                  // Scenario 3: create a random number to store in intialNumber to use
 
 
 
         srand ( time(NULL) );                    // makes sure random number if different each time
 
-        int initialNumber = rand() % (2000000);  // creates random number to use as initialNumber
+        int initialNumber = rand() % (2147483);  // creates random number to use as initialNumber up to max int size
 
         start_game(&initialNumber);              // launches game
 
 
     }
-
-
-
 
 
     return 0;
