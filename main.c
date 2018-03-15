@@ -1,7 +1,9 @@
 
+#include <stdlib.h>
+#include <sys/time.h>
 #include "pal.h"
 
-/****************************
+/******************************************************************************
  *
  * C Programming Assignment 1 v2
  *
@@ -20,18 +22,49 @@
  *
  *
  *
- *        Trying to implement the feature to work with the initialNumber
- *        to create the array of numbers for user to play with
- *        1 : Doesnt increase / decrease digits using w / x
  *
- *****************************/
+ *
+ *******************************************************************************/
 
 
 int main() {
 
-    int initialNumber  = 193643;      // stores integer to be converted into list
+    //-------------------------------------
+    //       Scenario Identification
+    //-------------------------------------
 
-    start_game(&initialNumber);        // launches game
+    // Change value of testNumber to run program in the different scenarios
+
+    int testNumber = 1;
+
+
+    if(testNumber == 1) {                        // Scenario 1: use initialNumber defined in main.c
+
+        int initialNumber  = 987986;             // stores integer to be converted into list
+
+        start_game(&initialNumber);              // launches game
+
+
+}else if(testNumber == 2) {                      // Scenario 2:   use initialised array in pal.c
+
+        start_game2();
+
+}else if(testNumber == 3) {                      // Scenario 3: create a random number to store in intialNumber to use
+
+
+
+        srand ( time(NULL) );                    // makes sure random number if different each time
+
+        int initialNumber = rand() % (2000000);  // creates random number to use as initialNumber
+
+        start_game(&initialNumber);              // launches game
+
+
+    }
+
+
+
+
 
     return 0;
 }

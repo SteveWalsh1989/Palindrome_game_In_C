@@ -14,7 +14,9 @@
  *
  * R00151053
  *
- * 13//2018
+ * 13/3/2018
+ *
+ * Methods used for Program
  *
  *****************************/
 
@@ -27,16 +29,20 @@
  *
  * starts the game
  *
+ * creates an integer array to use based on an integer
+ * passed into method as a parameter
+ *
+ * @param initialNumber = address of initialNumber
+ *
  */
 void start_game(int* initialNumber) {
     //-------------------------------------
     //    Declaring Variables
     //-------------------------------------
 
-    char validCommands[4] = {'a','d', 'w','x'};                                     // declare character array of valid commands
+    char validCommands[] = {'a','d', 'w','x'};                                      // declare character array of valid commands
 
     int *listOfNumber;                                                              // declare array to hold passed in pointer of initialNumber
-
 
     int positionOfCursor = 0;                                                       // define position of cursor
 
@@ -48,11 +54,11 @@ void start_game(int* initialNumber) {
     //    Calling Game Methods
     //-------------------------------------
 
-    displayGameHeader();                                                             // display game header
+    displayGameHeader(validCommands);                                                // display game header
 
     int number_of_digits =  countArray(initialNumber);                               // gets number of digits for array
 
-    listOfNumber = initialiseArray(initialNumber);                      // generate array
+    listOfNumber = initialiseArray(initialNumber);                                   // generate array
 
     randomizeCursorPosition(&positionOfCursor, number_of_digits );                   // randomizes cursor position at start
 
@@ -60,7 +66,7 @@ void start_game(int* initialNumber) {
 
         displayState(listOfNumber, positionOfCursor, number_of_digits, numberOfGoes);// display state of game
 
-        char command = getCommand();                                                 // stores user command
+        char command = getCommand(validCommands);                                    // stores user command
 
         processCommand(listOfNumber, number_of_digits, &positionOfCursor,
                        command, &numberOfGoes, &validCommands);                      // processes user command
@@ -70,13 +76,69 @@ void start_game(int* initialNumber) {
     userWon(numberOfGoes);                                                           // prints congratulations to user
 }
 
+
+
+/**
+ * start_game2
+ *
+ * starts the game using list defined within its method as the number
+ *
+ */
+void start_game2() {
+    //-------------------------------------
+    //    Declaring Variables
+    //-------------------------------------
+
+    char validCommands[] = {'a','d', 'w','x'};                                      // declare character array of valid commands
+
+    int listOfNumber[] = {2,3,4,5,3,2};                                                              // declare array to hold passed in pointer of initialNumber
+
+    int positionOfCursor = 0;                                                       // define position of cursor
+
+    int numberOfGoes     = 0;                                                       // stores number of guesses the user takes
+
+    int  number_of_digits = 6;                                                      // declare total number of digits in array
+
+    boolean isWinner     = False;                                                   // stores if user has won game
+
+
+    //-------------------------------------
+    //    Calling Game Methods
+    //-------------------------------------
+
+    displayGameHeader(validCommands);                                                // display game header
+
+
+
+    randomizeCursorPosition(&positionOfCursor, number_of_digits );                   // randomizes cursor position at start
+
+    while (!isWinner) {                                                              // keep playing until user wins
+
+        displayState(listOfNumber, positionOfCursor, number_of_digits, numberOfGoes);// display state of game
+
+        char command = getCommand(validCommands);                                    // stores user command
+
+        processCommand(listOfNumber, number_of_digits, &positionOfCursor,
+                       command, &numberOfGoes, &validCommands);                      // processes user command
+
+        isWinner = is_palindrome(listOfNumber, number_of_digits);                    // checks if user won
+    }
+    userWon(numberOfGoes);                                                           // prints congratulations to user
+}
+
+
 /**
  * displayGameHeader
  *
- * displays header for game with name, goal and controls
+ * displays header for game with : name
+ *                               : goal and for controls
+ *                               : valid commands
  *
+ *
+ *@param validCommands - memory address of valid commands array
  */
-void displayGameHeader(){
+void displayGameHeader(char* validCommands){
+
     printf("\n     ---------------------        ");
     printf("\n                                  ");
     printf("\n      THE PALINDROME GAME         ");
@@ -88,10 +150,10 @@ void displayGameHeader(){
     printf("\n                                  ");
     printf("\n     ---------------------        ");
     printf("\n                                  ");
-    printf("\n    'a' = move cursor left        ");
-    printf("\n    'd' = move cursor right       ");
-    printf("\n    'w' = increase digit value    ");
-    printf("\n    'd' = decrease digit value    ");
+    printf("\n    '%c' = move cursor left       ",validCommands[0]); // command to move left
+    printf("\n    '%c' = move cursor right      ",validCommands[1]); // command to move right
+    printf("\n    '%c' = increase digit value   ",validCommands[2]); // command to increment value
+    printf("\n    '%c' = decrease digit value   ",validCommands[3]); // command to decrement value
     printf("\n    enter key = submit command    ");
     printf("\n                                  ");
     printf("\n     ---------------------        ");
@@ -106,8 +168,8 @@ void displayGameHeader(){
  *
  *@param  listOfNumbers[]  :  address of listOfNumbers
  *@param  positionOfCursor : location of cursor
- *@param max               : number of values
- *@param numberOfGoes     : number of goes the user takes
+ *@param  max              : number of values
+ *@param numberOfGoes      : number of goes the user takes
  */
 void displayState (int* plistOfNumbers, int cursorValue, int max, int numberOfGoes){
 
@@ -129,7 +191,7 @@ void displayState (int* plistOfNumbers, int cursorValue, int max, int numberOfGo
 
     printf("\t\t");                                        // separator of data
 
-    printf("< Num Goes: %d >", numberOfGoes );       // print number of goes
+    printf("< Num Goes: %d >", numberOfGoes );             // print number of goes
 
     // printf("\t <Cursor at %d >", cursorValue );         // print cursor value
 
@@ -202,11 +264,6 @@ void incrementDigitInListAtPos(int* pListOfNumbers, int* positionOfCursor ){
 
         *(pListOfNumbers + *positionOfCursor) += 1;         // increments value by one
     }
-
-
-
-
-
 }
 
 /**
@@ -233,10 +290,10 @@ void decrementDigitInListAtPos(int* pListOfNumbers,int* positionOfCursor ){
  * getCommand
  *
  * Stores command entered by user
- *
+ *@param validCommands valid commands for user
  *@returns command : integer value of the letter the user selected
  */
-char getCommand() {
+char getCommand(char* validCommands) {
 
     int command = getchar();                                                     // stores character from user
 
@@ -246,7 +303,9 @@ char getCommand() {
 
     } else {
         printf("\n*------------------------------------------*\n");              // line break to split content
-        printf(  "* Error: Enter a valid command ( a d w x ) *");                // prints error if invalid input
+
+        printf(  "* Error: Enter a valid command ( %c %c %c %c ) *", validCommands[0], validCommands[1],validCommands[2],validCommands[3]); // prints error if invalid input
+
         printf("\n*------------------------------------------*\n\n");            // line break to split content
     }
 

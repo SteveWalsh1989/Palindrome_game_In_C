@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "Useful.h"
 
-/****************************
+/*************************************************************
  *
  * C Programming Assignment 1
  *
@@ -11,11 +11,11 @@
  *
  * R00151053
  *
- * 23/2/2018
+ * 13/3/2018
  *
  * Declare created methods and their parameters in this class
  *
- *****************************/
+ *************************************************************/
 
 
 //-------------------------------------
@@ -23,13 +23,16 @@
 //-------------------------------------
 
 
-void displayGameHeader();                   // displays header for game
+void displayGameHeader(char*);             // displays header for game
 
-void start_game(int*);                     // launches game
+void start_game(int*);                     // launches game v1
+
+void start_game2();                        // launches game v2
+
 
 void randomizeCursorPosition(int* ,int );  // randomize the cursor starting position
 
-int* initialiseArray(int*);           // initializes array from integer
+int* initialiseArray(int*);                // initializes array from integer
 
 //-------------------------------------
 //        Display State
@@ -53,7 +56,7 @@ void decrementDigitInListAtPos(int* ,int* );// decreases value of element curren
 //-------------------------------------
 //       commands
 //-------------------------------------
-char getCommand();                         // store users command
+char getCommand(char*);                                 // store users command
 
 void processCommand(int*, int, int*, char, int*, char*);// processes users command
 
