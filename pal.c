@@ -108,8 +108,6 @@ void start_game2() {
 
     displayGameHeader(validCommands);                                                // display game header
 
-
-
     randomizeCursorPosition(&positionOfCursor, number_of_digits );                   // randomizes cursor position at start
 
     while (!isWinner) {                                                              // keep playing until user wins
@@ -183,7 +181,7 @@ void displayState (int* plistOfNumbers, int cursorValue, int max, int numberOfGo
 
     while( i < max ){                                      // loop through array of number{
 
-        printf("%d", plistOfNumbers[i]);                   // print the address stored in listOfNumbers
+        printf("%d ", plistOfNumbers[i]);                   // print the address stored in listOfNumbers
 
         i++;                                               // increment counter
     }
@@ -197,9 +195,11 @@ void displayState (int* plistOfNumbers, int cursorValue, int max, int numberOfGo
 
     printf("\n");                                          // new line
 
-    for(int i=0; i < (cursorValue+2); i++ ) {              // loop until number of cursor + 1 fpr < in number list
+    printf("  ");                                          // print space
 
-        printf(" ");                                       // print space
+    for(int i=0; i < (cursorValue); i++ ) {                // loop until number of cursor + 1 fpr < in number list
+
+        printf("  ");                                      // print space
     }
     printf("^");                                           // print cursor
 
@@ -299,7 +299,7 @@ char getCommand(char* validCommands) {
 
     int dump = getchar();                                                        // clear enter
 
-    if (command == 'w' || command == 'a' || command == 'd' || command == 'x' ) { // checks if valid input
+    if (command == validCommands[2] || command == validCommands[0] || command == validCommands[1] || command == validCommands[3] ) { // checks if valid input
 
     } else {
         printf("\n*------------------------------------------*\n");              // line break to split content
